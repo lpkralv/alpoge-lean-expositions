@@ -1,0 +1,121 @@
+{
+  "findings": [
+    {
+      "id": "R01",
+      "type": "wrong",
+      "line": 9,
+      "quote": "The proof-level instantiation of the slot data and the use of the individual terms of the inequality in coefficient gluing are **not traced**.",
+      "claim": "This describes the limit of scope.json alone. The staged supply trace identifies the instantiation, line 15 summarizes it, and the gluing proof explicitly uses both sides of the inequality.",
+      "evidence": "In `coefGlue_holds`, CoefGlueHolds.lean:120–135 identifies the coefficient Casimir as JᴴCbJ and preserves the norm under J. Lines 136–144 remove the scalar twist, prove whole-column membership, and call `hCB a (Fin q) ℕ col b (fib lab τ) htab hcolS (J *ᵥ v) hfD`. Lines 145–150 rewrite the multiplicity coefficient using `arith` and finish with `hb`, the instantiated bound. The `coefGlue_holds` entry of supply.json independently identifies this call.",
+      "severity": "local"
+    },
+    {
+      "id": "R02",
+      "type": "missing",
+      "line": 9,
+      "quote": "The separate Kuga argument uses the small coefficient, the cochain, and unitarity up to twist to obtain cohomology",
+      "claim": "The direction of the comparison is what connects the tableau bound to cohomology. At each embedding the coefficient Casimir is bounded above by the automorphic Casimir scalar. Consequently the coefficient-minus-automorphic Casimir form is nonpositive, the sign needed in the argument that the cochain differential vanishes.",
+      "evidence": "`IsSmall`, ClozelCohomologicalOf.lean:37–43, specifies an opposite trace and a one-sided quadratic-form bound. In `kugaGlue_holds`, KugaGlueHolds.lean:80–90 uses the trace identities and that bound to establish `hcasI ≤ 0` in quadratic-form notation. Lines 92–100 use this estimate to prove the vanishing required by the harmonic implication at line 17.",
+      "severity": "insight gap"
+    },
+    {
+      "id": "R03",
+      "type": "unsupported",
+      "line": 11,
+      "quote": "The classical exterior-transfer argument expands the Casimir into slot transpositions and expresses the deficit for each pair of alternating columns as the squared norm of a transfer out of the shorter column.",
+      "claim": "The exposition gives a classical derivation but also attributes the combined argument to the literature. Its references are identified as sources for the slot expansion and the exterior action separately. It gives no location for the step identifying the transfer norm square with the height minus this particular Casimir interaction.",
+      "evidence": "Line 50 attributes the contraction to Lévy. Lines 54 and 382 cite the exterior action, and line 180 states the two transfer-square identities. None distinguishes a source that carries out the combined deficit computation from an identity the expositor deduces using those ingredients. The gap concerns attribution, not the validity of the identity.",
+      "severity": "local"
+    },
+    {
+      "id": "R04",
+      "type": "missing",
+      "line": 15,
+      "quote": "The archive adds two copies of the pairs \\(c<i\\) indexed by one embedding from each conjugate pair, obtains a compact-fixed tensor by spherical descent, and takes its signed column sum, whose terms a same-column transposition reindexes with opposite sign.",
+      "claim": "The reason for the added slots is missing. They supply exactly i extra occurrences of label i at each embedding. The enlarged multiplicity is therefore ντ(i)+i = s−lτ(wτ(i)), making every factor of the transferred quantum determinant equal to u+s. This explains why spherical descent applies and why the later Casimir bound still uses the original multiplicities ν.",
+      "evidence": "The `kType_of` entry of supply.json describes the two counts. In `kType_of`, PKType.lean:26–49 computes the enlarged counts and feeds the resulting eigencharacter into spherical descent. Lines 70–80 return the original slots and use `cntQ` for their multiplicities.",
+      "severity": "insight gap"
+    },
+    {
+      "id": "R05",
+      "type": "overstatement",
+      "line": 63,
+      "quote": "the maximum on the entire tensor power includes directions excluded by alternation.",
+      "claim": "Alternation can exclude ambient maximizing directions. Whether it does depends on the columns.",
+      "evidence": "Take n=2 with two singleton columns both labeled 1 and select both. There are no distinct same-column boxes, so the sign premise in `CasBound`, StepFormula.lean:88–94, imposes no restriction. Every maximizing vector is admissible. Line 353 gives this very example.",
+      "severity": "local"
+    },
+    {
+      "id": "R06",
+      "type": "wrong",
+      "line": 164,
+      "quote": "taking the largest eigenvalue of the transposition sum on the entire active tensor power gives the symmetric value \\(nd+d(d-1)\\)",
+      "claim": "The largest eigenvalue of the ordered transposition sum is d(d−1). The displayed number is the largest eigenvalue of the full Casimir.",
+      "evidence": "`cas_expand'`, Expand.lean:66, separates the scalar nd from the sum over distinct slots. In particular, for d=1 and n=2 that sum is empty and has eigenvalue 0, while K has eigenvalue 2. The subsequent numerical comparison on line 164 is correct for K.",
+      "severity": "local"
+    },
+    {
+      "id": "R07",
+      "type": "overstatement",
+      "line": 280,
+      "quote": "the sum of the fixed-orientation bounds grows linearly with the taller column",
+      "claim": "The coefficient grows linearly. The bound itself increases only for positive N.",
+      "evidence": "The sum is (h+h′)N. `sum_filter_col_le_sum_ite_of_bound`, CountCross.lean:28, allows real N. With exactly two columns of heights h and 1, terminal labels, N=−1, and every cross entry −1, the row bounds hold in both directions. Their fixed-orientation total is −(h+1). At N=0 the total stays zero.",
+      "severity": "local"
+    },
+    {
+      "id": "R08",
+      "type": "overstatement",
+      "line": 309,
+      "quote": "a direct count by tableau label would require the pointwise comparison \\(R(p,q)\\le N\\mathbf 1_{b(p)=b(q)}\\) at cross-column pairs.",
+      "claim": "The example rules out charging each swap to its own label match. It does not rule out a label-indexed count of whole rows.",
+      "evidence": "Orient each unordered pair of distinct active columns from the shorter one, breaking ties once. Its labels occur in the taller one. Charge each source row to its label i at cost N, then double by symmetry. Exactly binom(m_i,2) unordered pairs contribute a row at i. This uses the row hypothesis of `count_cross`, CountCross.lean:85–89, and recovers the stated total without any pointwise inequality.",
+      "severity": "local"
+    },
+    {
+      "id": "R09",
+      "type": "overstatement",
+      "line": 337,
+      "quote": "the internal debit has leading magnitude \\(h_c^2N\\)",
+      "claim": "This magnitude estimate uses N≥0. For the proposition as stated the magnitude is h_c(h_c−1)|N|.",
+      "evidence": "`cas_count`, CountCross.lean:104–114, assigns −N to each distinct same-column ordered pair. One column of height h≥2 with N=−1 and off-diagonal entries 1 satisfies its hypotheses. The internal contribution is positive h(h−1).",
+      "severity": "local"
+    },
+    {
+      "id": "R10",
+      "type": "wrong",
+      "line": 398,
+      "quote": "Absorbed statement in planner, with call sites in slices 1-11 and 1-12",
+      "claim": "The concordance reverses the direction of the calls. Those slices are helpers called by `count_cross`.",
+      "evidence": "`count_cross`, CountCross.lean:85–102, invokes `sum_sum_ite_col_ne_eq_sum_by_col` at lines 90 and 96 and `sum_filter_col_le_sum_ite_of_bound` at line 101. units4.json identifies the two helpers as slices 1-11 and 1-12 respectively.",
+      "severity": "local"
+    }
+  ],
+  "heart": [
+    {
+      "idea": "Contracting matrix units distinguishes coincident slots, which give n times the identity, from distinct slots, which give a swap. Each unordered pair occurs twice.",
+      "conveyed": "yes",
+      "where": "Lines 144–146, 162–166"
+    },
+    {
+      "idea": "An off-diagonal product of outside-to-column swaps puts an internal transposition next to the alternating tensor. Its minus sign gives the quadratic identity for Y and turns the one-sided deficit into a squared norm.",
+      "conveyed": "yes",
+      "where": "Lines 182–205"
+    },
+    {
+      "idea": "Whole selected columns carry nested terminal label intervals. Symmetry allows both ordered interaction sums to be bounded from the shorter column, charging once per common label.",
+      "conveyed": "yes",
+      "where": "Lines 278–286, 309–311"
+    },
+    {
+      "idea": "Each internal unordered pair costs two squared norms charged to its lower label. Each label-i box has n−1−i higher partners and m_i−1 cross-column matches, recovering the coefficient after adding the diagonal.",
+      "conveyed": "yes",
+      "where": "Lines 219–223, 339–347"
+    },
+    {
+      "idea": "Isometric intertwining transfers the fiberwise tensor inequality on Jv to a coefficient Casimir bound for every v. After the twist correction this gives the sign of the Casimir difference used on cochains.",
+      "conveyed": "buried",
+      "where": "Lines 9 and 15 give the ingredients and endpoints. The compression identity and the sign in the Kuga argument are implicit."
+    }
+  ]
+}

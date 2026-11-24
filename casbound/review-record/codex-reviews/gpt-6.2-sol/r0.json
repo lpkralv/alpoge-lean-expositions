@@ -1,0 +1,112 @@
+{
+  "findings": [
+    {
+      "id": "R0-01",
+      "type": "wrong",
+      "line": 9,
+      "quote": "The proof-level instantiation of the slot data and the use of the individual terms of the inequality in coefficient gluing are **not traced**.",
+      "claim": "The statement that the slot instantiation is untraced contradicts the account on line 15 and overlooks the explicit application in coefficient gluing.",
+      "evidence": "`scope.json` tracks the handoff of the universal theorem through the wrappers. `supply.json` identifies the actual instantiation in `PositivityTheory.Rg.Cz.coefGlue_holds`, `CoefGlueHolds.lean:120–144`. Line 144 applies the bound at rank `a` with slots `Fin q`, columns `ℕ`, the supplied `col` and `b`, `S = fib lab τ`, and `f = Jv`. The arguments `htab`, `hcolS`, and `hfD` supply the tableau, whole-column, and sign hypotheses.",
+      "severity": "local"
+    },
+    {
+      "id": "R0-02",
+      "type": "missing",
+      "line": 9,
+      "quote": "whose output is an algebraic coefficient representation with the required trace and Casimir comparisons and a nonzero cochain",
+      "claim": "The statement leaves implicit why the bound for an ambient tensor gives the required bound for every coefficient vector, and which comparison it supplies.",
+      "evidence": "In `coefGlue_holds`, `CoefGlueHolds.lean:120–150`, intertwining expresses the coefficient Casimir as the compression of the twisted ambient Casimir by `J`. The isometry gives `‖Jv‖² = ‖v‖²`. The proof applies the zero-background bound to `Jv`, adds the same twist correction to both sides, and uses `CGlue.arith` (`SumFinVal.lean:111–114`) to identify the corrected coefficient with the automorphic scalar `cτ`. This supplies the inequality in `IsSmall` (`ClozelCohomologicalOf.lean:37–43`). The trace identity is established separately in `CoefGlueHolds.lean:102–119`.",
+      "severity": "insight gap"
+    },
+    {
+      "id": "R0-03",
+      "type": "missing",
+      "line": 9,
+      "quote": "The separate Kuga argument uses the small coefficient, the cochain, and unitarity up to twist to obtain cohomology",
+      "claim": "The application summary omits the sign argument that makes an upper bound on the coefficient Casimir sufficient for nonzero cohomology.",
+      "evidence": "`kg_casDiff` (`KgCasDiff.lean:37–52`) uses the opposite trace scalars to cancel the twist corrections, leaving twice the sum of the coefficient-minus-automorphic Casimir differences. `kugaGlue_holds` (`KugaGlueHolds.lean:80–99`) uses the coefficient bound to make this difference nonpositive in the tensor Hermitian form. `kugaAbs_holds` (`KugaAbsHolds.lean:137–181`) then forces the differential to vanish by positivity. The `Harmonic` input uses vanishing in all degrees and the nonzero cochain to give cohomology (`IsStarRep.lean:67–70`).",
+      "severity": "insight gap"
+    },
+    {
+      "id": "R0-04",
+      "type": "missing",
+      "line": 15,
+      "quote": "The archive adds two copies of the pairs \\(c<i\\) indexed by one embedding from each conjugate pair, obtains a compact-fixed tensor by spherical descent, and takes its signed column sum, whose terms a same-column transposition reindexes with opposite sign.",
+      "claim": "The construction gives the shape of the auxiliary slots but leaves out why it has to add exactly this triangular family before spherical descent.",
+      "evidence": "`KTy.cntF` (`PKTypeA.lean:171–182`) shows that the added slots increase multiplicity by exactly `i` at label `i` for each embedding. In `kType_of` (`PKType.lean:23–49`), the resulting multiplicity `ντ(i)+i = s−lτ(wτ(i))` shifts every transferred quantum determinant factor to `u+s`. The resulting scalar `(u+s)^n` is the input to spherical descent. The original slots and their multiplicities are the ones returned for the bound (`PKType.lean:70–80`).",
+      "severity": "insight gap"
+    },
+    {
+      "id": "R0-05",
+      "type": "unsupported",
+      "line": 52,
+      "quote": "Jucys’s factorization gives this one-column projector, and Murphy independently developed the branching construction.",
+      "claim": "The attribution of independent development to Murphy needs historical evidence beyond a citation for the construction.",
+      "evidence": "The passage points to Jucys’s equation (3) and Murphy’s §3 for the mathematics. It identifies no statement or historical source supporting independence. The one-column projector itself is explained by the coset calculation on line 205, which does not settle the historical claim.",
+      "severity": "local"
+    },
+    {
+      "id": "R0-06",
+      "type": "overstatement",
+      "line": 63,
+      "quote": "the maximum on the entire tensor power includes directions excluded by alternation.",
+      "claim": "An active column with at least two slots excludes fully symmetric tensors, but the active alternation constraint can be vacuous.",
+      "evidence": "Take `n=2` and `S=Q` with two singleton columns, both labeled `1`. The alternation clause of `CasBound` (`StepFormula.lean:88–94`) is vacuous. By `cas_expand'` (`Expand.lean:66–69`), the operator is `4 Id + 2P`, so its entire maximal eigenspace is admissible.",
+      "severity": "local"
+    },
+    {
+      "id": "R0-07",
+      "type": "overstatement",
+      "line": 280,
+      "quote": "If one height grows and the other stays fixed, the sum of the fixed-orientation bounds grows linearly with the taller column, whereas the number of common labels stays at most the fixed height.",
+      "claim": "The fixed-orientation bound increases with the taller height when N is positive. It is constant at zero and decreases when N is negative.",
+      "evidence": "The bound is `(h_c+h_c′)N`. `sum_filter_col_le_sum_ite_of_bound` (`CountCross.lean:28–34`) permits negative `N`. Use exactly two columns of heights `h` and `1`, terminal labels, `N=−1`, and every cross-column entry equal to `−1`. The row sums are `−1` and `−h`, so the hypotheses hold and the fixed-orientation bound is `−(h+1)`.",
+      "severity": "local"
+    },
+    {
+      "id": "R0-08",
+      "type": "overstatement",
+      "line": 309,
+      "quote": "For decision 6, a direct count by tableau label would require the pointwise comparison \\(R(p,q)\\le N\\mathbf 1_{b(p)=b(q)}\\) at cross-column pairs.",
+      "claim": "A pointwise comparison would justify replacing individual entries. A count indexed by tableau label can already be obtained from the row bounds.",
+      "evidence": "Orient each unordered pair of columns from the shorter column, with either orientation in a tie. Its source labels are exactly the common labels. Charge one row to each such label and use symmetry for the reverse order. For label `i` this gives `2 binom(m_i,2) N` from the pairs of columns containing `i`. The row comparison and use of symmetry are in `sum_filter_col_le_sum_ite_of_bound` (`CountCross.lean:35–57`). The example on line 309 correctly rules out an entrywise proof.",
+      "severity": "local"
+    },
+    {
+      "id": "R0-09",
+      "type": "overstatement",
+      "line": 337,
+      "quote": "In a tall column the internal debit has leading magnitude \\(h_c^2N\\), compared with a diagonal charge \\(nh_cN\\).",
+      "claim": "This heuristic describes the tensor application with N nonnegative. The abstract counting proposition also allows a negative scale, for which the internal term is positive.",
+      "evidence": "`cas_count` (`CountCross.lean:104–114, 126–131`) gives the internal term `−h_c(h_c−1)N`, of magnitude `h_c(h_c−1)|N|`. One column of height `n≥2`, `N=−1`, and `R(p,q)=1` for distinct slots satisfies the hypotheses with a vacuous cross-column condition. Its internal contribution is `n(n−1)>0`.",
+      "severity": "local"
+    }
+  ],
+  "heart": [
+    {
+      "idea": "Contract the matrix units into n times the identity on each selected diagonal slot pair and a swap on each distinct ordered pair.",
+      "conveyed": "yes",
+      "where": "Lines 129–166 and 357–361"
+    },
+    {
+      "idea": "Use target-column alternation to turn the off-diagonal products in Y² into negative swaps, so one squared defect controls the entire one-box interaction.",
+      "conveyed": "yes",
+      "where": "Lines 168–205"
+    },
+    {
+      "idea": "Group cross-column terms by column pair, use symmetry to orient from the shorter column, and use nested terminal labels to make its height an exact count of matches.",
+      "conveyed": "yes",
+      "where": "Lines 243–288 and 309–311"
+    },
+    {
+      "idea": "Keep the exact negative sign of each distinct within-column pair and charge both orders to the lower label, whose higher partners all survive whole-column selection.",
+      "conveyed": "yes",
+      "where": "Lines 219–225, 339–345, and 364"
+    },
+    {
+      "idea": "Combine the diagonal, internal, and cross-column counts per slot, then collect the m_i identical contributions at each label.",
+      "conveyed": "yes",
+      "where": "Lines 235–239 and 347"
+    }
+  ]
+}
