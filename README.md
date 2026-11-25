@@ -1,4 +1,4 @@
-**Posted:** Zenodo, DOI [10.5281/zenodo.24514672](https://doi.org/10.5281/zenodo.24514672) (all versions: 10.5281/zenodo.24514671). Hexagon: hexagon:2611.01006 (in moderation; https://hexagonmath.org/2611.01006 once public).
+**Posted:** Zenodo, DOI [10.5281/zenodo.24514672](https://doi.org/10.5281/zenodo.24514672) (all versions: 10.5281/zenodo.24514671). Hexagon: [hexagon:2611.01006](https://hexagonmath.org/2611.01006).
 
 **About this document**
 
