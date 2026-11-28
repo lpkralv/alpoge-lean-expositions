@@ -3,7 +3,7 @@
 Reviewer: verifier subagent (Claude Fable 5.2), launched by the mathematics agent. 2026-11-27.
 Brief: `BRIEF-delta-adversarial-v2.md` in this folder. Read-only: this report is the only file written in the repository.
 
-Reviewed: `local-source/_Scratch/mathematics-codex/vance-casbound-v2/v2/paper/paper.tex` (1,817 lines; byte-identical to `docs/publications/casbound-release-v2/paper/paper.tex`) and its `paper.pdf` (24 pages), against version 1 (`.../vance-casbound-review/in/paper.tex`) and the Lean tree `.../mathematics-lean-exposition/targets/alpoge/lean/src`.
+Reviewed: `<local>/paper.tex` (1,817 lines; byte-identical to `docs/publications/casbound-release-v2/paper/paper.tex`) and its `paper.pdf` (24 pages), against version 1 (`<local>/paper.tex`) and the Lean tree `<local>/src`.
 
 ## Verdict
 
@@ -23,7 +23,7 @@ Labels are those of the adversarial manuscript brief. Line numbers are lines of 
 
 ### 1. OK. Theorem A and Propositions 1 to 9 are unchanged and match the Lean
 
-Statement text. `python3 /tmp/casbound-v2-verifier/compare_statements.py` (source in Appendix B) prints:
+Statement text. `python3 <local>/compare_statements.py` (source in Appendix B) prints:
 
 ```
 thm:bound  -> thm:A   identical: True   (701 chars)
@@ -61,7 +61,7 @@ Against the Lean (read in full: the five proof files, `KTypeData.lean`, `StepFor
 
 The proofs in Section 3 follow the Lean proofs step for step (I compared each: for example the two cases of Proposition 7 are CountCross.lean:35–39 and 40–57, and the identity ‖g‖² = (s+1)·Re⟨f,g⟩ is `hgg`/`hre` at ReSwapSumLe.lean:65–68 and 74–76). The proofs of version 2 are version 1's with commentary removed; no step changed.
 
-As an attack on the transcription I also searched at random for counterexamples to Propositions 4 to 9 exactly as displayed (abstract symmetric kernel R, real N including negative values, a column set C that may contain a column with no boxes). `python3 /tmp/casbound-v2-verifier/check_props_abstract.py` (Appendix E):
+As an attack on the transcription I also searched at random for counterexamples to Propositions 4 to 9 exactly as displayed (abstract symmetric kernel R, real N including negative values, a column set C that may contain a column with no boxes). `python3 <local>/check_props_abstract.py` (Appendix E):
 
 ```
 statements as displayed (symmetric R, whole columns): {'tested': 2947, 'p4': 0, 'p5': 0, 'p6': 0, 'p7': 0, 'p8': 0, 'p9': 0, 'tight9': 2764, 'negN': 450}
@@ -93,7 +93,7 @@ In a tie both namings give the same h_c N, so either may be used. With the talle
 
 Smallest case by hand: n = 2, two one-box columns, f = |01⟩. N = 1, K = 4·Id + 2P, ⟨f,Kf⟩ = 4, coefficient 6, left side 2. Right side: 2 · (1/2) · ‖|01⟩ − |10⟩‖² = 2.
 
-Exact check. `python3 /tmp/casbound-v2-verifier/repro_thmB.py` is standalone (Appendix A). It uses integer tensors and rational arithmetic, so equality is exact. Output:
+Exact check. `python3 <local>/repro_thmB.py` is standalone (Appendix A). It uses integer tensors and rational arithmetic, so equality is exact. Output:
 
 ```
 B(a): mismatches over all height multisets, n<=8, <=6 columns: 0
@@ -107,7 +107,7 @@ one instance, n=3, heights (2,1): (coef_labels, coef_heights, ||f||^2, LHS, RHS)
 
 Both controls are rejected in every applicable configuration. (The divisor control is applied only where an unequal pair has taller height below n and the deficit is not zero, since for a taller column of height n every f − Y_p f vanishes and the divisor cannot matter.)
 
-A wider floating-point run with complex f, unselected columns of several heights and the matrix-unit definition of K (`python3 /tmp/casbound-v2-verifier/check_core.py`, Appendix C):
+A wider floating-point run with complex f, unselected columns of several heights and the matrix-unit definition of K (`python3 <local>/check_core.py`, Appendix C):
 
 ```
 [B(a)] exhaustive n<=8, <=6 columns: 6435 height multisets, mismatches = 0
@@ -270,7 +270,7 @@ Line 1337. It holds for Tables 1 and 2. In Table 3, `cas_shift` and `arith` are 
 
 Line 1433: "The Lie-action formula on the fiber" cites IsStarRep.lean:75–80 and 95–98. Lines 75–80 are `BigCx`, which is that formula. Lines 95–98 are `CasVal`: the trace and the Casimir scalar of a family with a given characteristic polynomial. That is the source of the scalar κ_τ, not a Lie-action formula. The pairing is inherited from a grouped citation in version 1 (v1 lines 149–155), where the sentence also covered the Casimir scalar. Suggested fix: move 95–98 to the row for the identity `arith` or give `CasVal` its own row.
 
-Every other row of the three tables is right. `python3 /tmp/casbound-v2-verifier/check_concordance.py` (Appendix F) tests, for 40 file-and-range entries, that the first line opens the named declaration and the last line closes it, and that the same range shifted by one line is rejected:
+Every other row of the three tables is right. `python3 <local>/check_concordance.py` (Appendix F) tests, for 40 file-and-range entries, that the first line opens the named declaration and the last line closes it, and that the same range shifted by one line is rejected:
 
 ```
 rows: 40 failures: 0
@@ -310,7 +310,7 @@ gl_n is reductive, not semisimple, so the theorem does not apply as cited. The m
 
 ### 17. OK. New pinpoints and quotations in version 2, checked against fetched sources
 
-Version 2 says its writer did not fetch the literature again, so I checked what is new relative to version 1 (found by diffing the `\cite` keys and optional arguments of the two files). Sources were downloaded to `/tmp/casbound-v2-verifier/dl/` and searched as text.
+Version 2 says its writer did not fetch the literature again, so I checked what is new relative to version 1 (found by diffing the `\cite` keys and optional arguments of the two files). Sources were downloaded to `<local>/dl` and searched as text.
 
 | New in version 2 | Result |
 |---|---|
@@ -356,7 +356,7 @@ High that the mathematics of version 2 is right. Theorem A and Propositions 1 to
 
 ## Appendices: scripts
 
-All scripts are in `/tmp/casbound-v2-verifier/`, which may be cleared. To rerun after that, save each listing under its file name in that folder (the scripts import `check_core.py` from that path). Environment: Python 3 with numpy 2.4.2. Run times are a few seconds each.
+All scripts are in `<local>/casbound-v2-verifier`, which may be cleared. To rerun after that, save each listing under its file name in that folder (the scripts import `check_core.py` from that path). Environment: Python 3 with numpy 2.4.2. Run times are a few seconds each.
 
 ### Appendix A. `repro_thmB.py` (standalone)
 
@@ -445,8 +445,8 @@ rng = np.random.default_rng(3); print("one instance, n=3, heights (2,1): (coef_l
 ```python
 # compare the displayed statements of the main theorem and Propositions 1-9 in v1 and v2 (whitespace-normalised)
 import re
-v1 = open('local-source/_Scratch/mathematics-codex/vance-casbound-review/in/paper.tex', encoding='utf-8').read()
-v2 = open('local-source/_Scratch/mathematics-codex/vance-casbound-v2/v2/paper/paper.tex', encoding='utf-8').read()
+v1 = open('<local>/paper.tex', encoding='utf-8').read()
+v2 = open('<local>/paper.tex', encoding='utf-8').read()
 def envs(t, names):
     out = {}
     for m in re.finditer(r'\\begin\{(' + '|'.join(names) + r')\}(\[[^\n]*\])?\\label\{([^}]*)\}(.*?)\\end\{\1\}', t, re.S):
@@ -693,7 +693,7 @@ if __name__ == '__main__':
 
 ```python
 import numpy as np, itertools, math, sys
-sys.path.insert(0, '/tmp/casbound-v2-verifier')
+sys.path.insert(0, '<local>/casbound-v2-verifier')
 from check_core import *
 rng = np.random.default_rng(7)
 
@@ -1005,7 +1005,7 @@ print(f"control, non-terminal selections in one column: {viol} of {tot} violate 
 # Random search for counterexamples to the displayed statements of Propositions 4-9 (abstract kernel R, real N),
 # transcribed from v2 (identical to v1). Controls: asymmetric R, and partial (non-whole-column) selection.
 import itertools, random, sys
-sys.path.insert(0, '/tmp/casbound-v2-verifier')
+sys.path.insert(0, '<local>/casbound-v2-verifier')
 from check_core import Cfg
 random.seed(5)
 
@@ -1111,7 +1111,7 @@ print("control, arbitrary partial selection (U dropped):     ", run(partial=True
 
 ```python
 import re, os, sys
-tree = 'local-source/_Scratch/mathematics-lean-exposition/targets/alpoge/lean/src'
+tree = '<local>/src'
 CB = tree + '/Development/WeilBound/RepresentationTheoryGL/CasimirAlgebra/KugaCoordinates/CasimirBounds/'
 TR = tree + '/Development/WeilBound/RepresentationTheoryGL/CasimirAlgebra/TensorRelationsGL/'
 KC = tree + '/Development/WeilBound/RepresentationTheoryGL/CasimirAlgebra/KugaCoordinates/'

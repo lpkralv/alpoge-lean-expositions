@@ -1,6 +1,6 @@
 # Adversarial review of the casBound exposition paper (verifier, Fable)
 
-Reviewed 2026-11-27. Manuscript: `local-source/_Scratch/mathematics-codex/vance-casbound-review/in/paper.pdf` and `paper.tex` (18 pages). Lean tree: `local-source/_Scratch/mathematics-lean-exposition/targets/alpoge/lean/src`.
+Reviewed 2026-11-27. Manuscript: `<local>/paper.pdf` and `paper.tex` (18 pages). Lean tree: `<local>/src`.
 
 ## Verdict
 
@@ -14,18 +14,18 @@ In the verifier's own terms: SURVIVED for the mathematics, FLAG for findings 9 a
 
 - `pN lM` is line M of page N in the output of `pdftotext -layout paper.pdf`. `tex L` is a line of `paper.tex`.
 - Lean references are `File.lean:lines` in the tree above. The five proof files are in `Development/WeilBound/RepresentationTheoryGL/CasimirAlgebra/KugaCoordinates/CasimirBounds/`.
-- Scratch is in `/tmp/casbound-verifier-fable/`. Nothing in the repository or the Lean tree was changed. Because `/tmp` can be cleared, Appendix A gives a self-contained script and Appendix B the Lean check file.
+- Scratch is in `<local>/casbound-verifier-fable`. Nothing in the repository or the Lean tree was changed. Because `/tmp` can be cleared, Appendix A gives a self-contained script and Appendix B the Lean check file.
 
 ## What I ran
 
 | Evidence | Command | Result |
 |---|---|---|
-| Closure size and text scan | `python3 /tmp/casbound-verifier-fable/closure.py <src> Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.KugaCoordinates.CasimirBounds.CasBoundHolds` | 10 modules, 975 lines (`wc -l`), only external import is Mathlib, no line contains any of the words sorry, admit, axiom, native_decide, unsafe, implemented_by, opaque |
-| Independent Lean re-elaboration | `/tmp/casbound-verifier-fable/leanbuild/build.sh` (Lean 4.33.1; the ten closure files copied from the reviewed tree and compiled in dependency order; Mathlib oleans, rev 0df444a3, read from the prebuilt workspace `tool-win/targets/alpoge-casbound/.lake/packages`) | every module `exit=0 errors=0 sorry_warnings=0`; `casBound_holds` and the seven public lemmas depend on `[propext, Classical.choice, Quot.sound]`; negative control `theorem neg_control : (1 : ℕ) = 2 := by sorry` reports `[sorryAx]` |
+| Closure size and text scan | `python3 <local>/closure.py <src> Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.KugaCoordinates.CasimirBounds.CasBoundHolds` | 10 modules, 975 lines (`wc -l`), only external import is Mathlib, no line contains any of the words sorry, admit, axiom, native_decide, unsafe, implemented_by, opaque |
+| Independent Lean re-elaboration | `<local>/build.sh` (Lean 4.33.1; the ten closure files copied from the reviewed tree and compiled in dependency order; Mathlib oleans, rev 0df444a3, read from the prebuilt workspace `tool-win/targets/alpoge-casbound/.lake/packages`) | every module `exit=0 errors=0 sorry_warnings=0`; `casBound_holds` and the seven public lemmas depend on `[propext, Classical.choice, Quot.sound]`; negative control `theorem neg_control : (1 : ℕ) = 2 := by sorry` reports `[sorryAx]` |
 | Paper statements as Lean terms | `leanbuild/Check.lean` (Appendix B) | Theorem 10 with the tableau condition unfolded as on p4, Proposition 3 as a sum of real parts, and Proposition 9 all typecheck as instances of `casBound_holds`, `re_swapSum_le'`, `cas_count` |
-| Operators, theorem, propositions 1 to 3, hand computations | `python3 /tmp/casbound-verifier-fable/verify_casbound.py` | `SUMMARY: 36 checks, 0 failed` |
-| Transfer squares, propositions 4 to 9 for abstract kernels | `python3 /tmp/casbound-verifier-fable/verify_casbound2.py` | `SUMMARY: 12 checks, 0 failed` |
-| Product identity, extremal vector, pair deficit | `python3 /tmp/casbound-verifier-fable/verify_casbound3.py` | `SUMMARY: 7 checks, 0 failed` |
+| Operators, theorem, propositions 1 to 3, hand computations | `python3 <local>/verify_casbound.py` | `SUMMARY: 36 checks, 0 failed` |
+| Transfer squares, propositions 4 to 9 for abstract kernels | `python3 <local>/verify_casbound2.py` | `SUMMARY: 12 checks, 0 failed` |
+| Product identity, extremal vector, pair deficit | `python3 <local>/verify_casbound3.py` | `SUMMARY: 7 checks, 0 failed` |
 | Self-contained re-check | `python3 mini_check.py` (Appendix A) | 140 configurations, 0 violations, supremum equal to the coefficient to 2.5e-14, and three negative controls detected (full output in Appendix A) |
 
 The numerical operators are built from the Lean definitions, not from the paper: `eAt p a b f I = if I p = a then f (update I p b) else 0`, `tE S 0 a b = Σ_{p∈S} eAt p a b`, `pm σ f I = f (I ∘ σ)` (KTypeData.lean:17–27).
@@ -155,7 +155,7 @@ What the release package holds (`docs/publications/casbound-release/validation-t
 
 So the two published grade files grade one version of the exposition (`assembled-v10.md`) at 8 of 8, and their only "seven of eight" is the score of a different artifact, the digest, which misses the same insight (key 8) that the paper names as missing before review. Either the before-review grades exist and were not published, or the before-and-after comparison was read off the digest-and-exposition comparison. I could not tell which.
 
-A second point, from the internal log `_Scratch/mathematics-lean-exposition/pipeline-work/alpoge-typeprimes-pipeline-log.md` (not part of the published record): the two graders ran five times on 2026-11-24, at 17:07, 18:12, 18:39 and 19:10 UTC before the review step (19:13) and once after the revision (19:20). The steps scope, supply and audit were re-run between those rounds (log lines 25–26, 38–40, 52–54), and each round overwrote the same `report.md`. The paper reports one before figure and one after figure. I did not establish what the first three rounds scored or why the steps were re-run.
+A second point, from the internal log `<local>/alpoge-typeprimes-pipeline-log.md` (not part of the published record): the two graders ran five times on 2026-11-24, at 17:07, 18:12, 18:39 and 19:10 UTC before the review step (19:13) and once after the revision (19:20). The steps scope, supply and audit were re-run between those rounds (log lines 25–26, 38–40, 52–54), and each round overwrote the same `report.md`. The paper reports one before figure and one after figure. I did not establish what the first three rounds scored or why the steps were re-run.
 
 Needed to close: the before-review reports from both graders, the number of grading rounds run against the key, and what changed between them. With n = 1 theorem and AI graders, which the paper states, the result is an anecdote either way; the point is that the stated design should be the design that was run.
 

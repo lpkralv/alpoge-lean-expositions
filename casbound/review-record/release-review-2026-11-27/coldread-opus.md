@@ -1,4 +1,4 @@
-I couldn't write `local-source/Mathematics/docs/publications/casbound-release/review-2026-11-27/coldread-opus.md`. My instructions here forbid writing any file, and this session has no write or edit tool. The full report is below; save it as-is if you want it in the review folder. I read only `local-source/_Scratch/mathematics-codex/vance-casbound-review/in/paper.tex` and the PDF for page numbers. I did not open the Lean or the longer exposition.
+I couldn't write `local-source/Mathematics/docs/publications/casbound-release/review-2026-11-27/coldread-opus.md`. My instructions here forbid writing any file, and this session has no write or edit tool. The full report is below; save it as-is if you want it in the review folder. I read only `<local>/paper.tex` and the PDF for page numbers. I did not open the Lean or the longer exposition.
 
 **Top findings**
 1. paper.tex:766 (p11): the key structural fact is buried. Distinct labels plus upward closure mean column c's labels are exactly {n−h_c,…,n−1}. The paper only says this halfway through the proof of Proposition 7. Stated up front, it reduces Propositions 4, 5 and 7 to counting.

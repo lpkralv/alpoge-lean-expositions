@@ -1,7 +1,7 @@
 # casBound release review: consolidated findings
 
 Paper: L. P. Slothouber, "An automatically generated exposition of the Casimir bound casBound_holds in Alpöge's Lean proof of the Riemann hypothesis" (Zenodo 10.5281/zenodo.24514672, Hexagon 2611.01006). Line numbers are lines of
-local-source/_Scratch/mathematics-codex/vance-casbound-review/in/paper.tex; page numbers are printed PDF pages, checked by text search of the PDF.
+<local>/paper.tex; page numbers are printed PDF pages, checked by text search of the PDF.
 
 Consolidated 2026-11-27 by the mathematics agent (Opus) from seven reports in this folder:
 
