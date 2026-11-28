@@ -1,3 +1,5 @@
+Superseded: this describes an early version of the pipeline.
+
 # Lean exposition pipeline
 
 Run from this directory with Python 3.13. A live run also needs Node, the Codex companion, a built exposition tool, and the target's Lean toolchain and cached dependencies. The runner uses the standard library and runs on macOS and Linux.

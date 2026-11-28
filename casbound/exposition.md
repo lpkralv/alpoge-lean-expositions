@@ -1,3 +1,5 @@
+Superseded. This is the version 1 exposition source. Version 2 of the paper (paper/paper.pdf) corrects errors found in a release review on 2026-11-27, including a false attribution, claims about certification, grading independence and hand checks; see casbound/review-record/release-review-2026-11-27/. Use version 2.
+
 # The tableau Casimir bound
 
 This is an exposition of the tableau Casimir bound in Levent Alpöge’s 2026 Lean archive, published on 2026-11-20. [Lean archive](https://alpo.ge/lean.tar.gz).
